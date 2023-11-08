@@ -50,7 +50,11 @@ const App = () => {
     }
   };
 
-  // Эффект для выполнения запроса и обновления фотографий при изменении inputValue или currentPage
+  // !Эффект для выполнения запроса и обновления фотографий при изменении inputValue или currentPage
+  // !что за ошибка?
+  // !src / components / App.jsx
+  // !Line 60:6:  React Hook useEffect has a missing dependency: 'fetchAndSetPhotos'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  // !Error: Process completed with exit code 1.
   useEffect(() => {
     // Проверяем, что inputValue и currentPage не пусты перед выполнением запроса
     if (inputValue && currentPage) {
