@@ -23,9 +23,9 @@ const App = () => {
   };
 
   // Функция для очистки фотографий
-  const clearPhotos = () => {
-    setPhotos([]); // Очищаем список фотографий
-  };
+  // const clearPhotos = () => {
+  //   setPhotos([]); // Очищаем список фотографий
+  // };
 
   // Функция для выполнения запроса и обновления фотографий
   const fetchAndSetPhotos = async (inputValue, currentPage = 1) => {
@@ -59,7 +59,6 @@ const App = () => {
     // Проверяем, что inputValue и currentPage не пусты перед выполнением запроса
     if (inputValue && currentPage) {
       fetchAndSetPhotos(inputValue, currentPage);
-      clearPhotos(); // Очищаем список фотографий перед выполнением нового запроса
     }
   }, [inputValue, currentPage]);
 
@@ -98,7 +97,7 @@ const App = () => {
       {isLoading && <Loader />}
 
       {/* Если переменная noPhotos имеет значение true, отображаем сообщение об извинении, что не найдено изображений по вашему запросу */}
-      {noPhotos && !isLoading && (
+      {noPhotos && (
         <p className="apologyMessage">
           Sorry, no images were found for your search.
         </p>
