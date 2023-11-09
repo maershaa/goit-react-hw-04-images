@@ -27,39 +27,33 @@ const App = () => {
   //   setPhotos([]); // Очищаем список фотографий
   // };
 
-  // Функция для выполнения запроса и обновления фотографий
-  const fetchAndSetPhotos = async (inputValue, currentPage = 1) => {
-    try {
-      setIsLoading(true); // Устанавливаем флаг загрузки в true
-      setError(null); // Сбрасываем сообщение об ошибке
-
-      const data = await fetchPhotos(inputValue, currentPage); // Выполняем запрос к API
-
-      const currentPhotos = photos || []; // Получаем текущие фотографии
-      const newPhotos = data.hits; // Получаем новые фотографии
-
-      const updatedPhotos = [...currentPhotos, ...newPhotos]; // Объединяем их
-
-      setPhotos(updatedPhotos); // Устанавливаем обновленные фотографии
-      setError(null); // Сбрасываем сообщение об ошибке
-    } catch (error) {
-      setError(error.message); // Устанавливаем сообщение об ошибке
-      setPhotos(null); // Сбрасываем фотографии в случае ошибки
-    } finally {
-      setIsLoading(false); // В любом случае завершаем запрос, сбрасывая флаг загрузки
-    }
-  };
-
-  // !Эффект для выполнения запроса и обновления фотографий при изменении inputValue или currentPage
-  // !что за ошибка?
-  // !src / components / App.jsx
-  // !Line 60:6:  React Hook useEffect has a missing dependency: 'fetchAndSetPhotos'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
-  // !Error: Process completed with exit code 1.
   useEffect(() => {
-    // Проверяем, что inputValue и currentPage не пусты перед выполнением запроса
-    if (inputValue && currentPage) {
-      fetchAndSetPhotos(inputValue, currentPage);
+    if (!inputValue) {
+      return;
     }
+    const fetchAndSetPhotos = async () => {
+      try {
+        setIsLoading(true); // Устанавливаем флаг загрузки в true
+        setError(null); // Сбрасываем сообщение об ошибке
+
+        const data = await fetchPhotos(inputValue, currentPage); // Выполняем запрос к API
+
+        const currentPhotos = photos || []; // Получаем текущие фотографии
+        const newPhotos = data.hits; // Получаем новые фотографии
+
+        const updatedPhotos = [...currentPhotos, ...newPhotos]; // Объединяем их
+
+        setPhotos(updatedPhotos); // Устанавливаем обновленные фотографии
+        setError(null); // Сбрасываем сообщение об ошибке
+      } catch (error) {
+        setError(error.message); // Устанавливаем сообщение об ошибке
+        setPhotos(null); // Сбрасываем фотографии в случае ошибки
+      } finally {
+        setIsLoading(false); // В любом случае завершаем запрос, сбрасывая флаг загрузки
+      }
+    };
+    // Проверяем, что inputValue и currentPage не пусты перед выполнением запроса
+    fetchAndSetPhotos();
   }, [inputValue, currentPage]);
 
   // Обработчик для кнопки "Загрузить еще"
