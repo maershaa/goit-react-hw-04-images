@@ -28,25 +28,37 @@ const App = () => {
   // };
 
   useEffect(() => {
+    // Проверяем, есть ли значение в поисковом запросе
     if (!inputValue) {
-      return;
+      return; // Если нет, выходим из эффекта
     }
+
     const fetchAndSetPhotos = async () => {
       try {
-        setIsLoading(true); // Устанавливаем флаг загрузки в true
-        setError(null); // Сбрасываем сообщение об ошибке
+        // Устанавливаем флаг загрузки в true перед запросом
+        setIsLoading(true);
+        // Сбрасываем сообщение об ошибке перед запросом
+        setError(null);
 
-        const data = await fetchPhotos(inputValue, currentPage); // Выполняем запрос к API
+        // Выполняем запрос к API и получаем данные
+        const data = await fetchPhotos(inputValue, currentPage);
+
+        // Обновляем фотографии, добавляя новые к текущим
         setPhotos(prevData => [...prevData, ...data.hits]);
-        setError(null); // Сбрасываем сообщение об ошибке
+        // Сбрасываем сообщение об ошибке
+        setError(null);
       } catch (error) {
-        setError(error.message); // Устанавливаем сообщение об ошибке
-        setPhotos([]); // Сбрасываем фотографии в случае ошибки
+        // В случае ошибки устанавливаем сообщение об ошибке
+        setError(error.message);
+        // Сбрасываем фотографии в случае ошибки
+        setPhotos([]);
       } finally {
-        setIsLoading(false); // В любом случае завершаем запрос, сбрасывая флаг загрузки
+        // В любом случае завершаем запрос, сбрасывая флаг загрузки
+        setIsLoading(false);
       }
     };
-    // Проверяем, что inputValue и currentPage не пусты перед выполнением запроса
+
+    // Выполняем функцию fetchAndSetPhotos при изменении inputValue или currentPage
     fetchAndSetPhotos();
   }, [inputValue, currentPage]);
 
