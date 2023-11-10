@@ -37,17 +37,11 @@ const App = () => {
         setError(null); // Сбрасываем сообщение об ошибке
 
         const data = await fetchPhotos(inputValue, currentPage); // Выполняем запрос к API
-
-        const currentPhotos = photos || []; // Получаем текущие фотографии
-        const newPhotos = data.hits; // Получаем новые фотографии
-
-        const updatedPhotos = [...currentPhotos, ...newPhotos]; // Объединяем их
-
-        setPhotos(updatedPhotos); // Устанавливаем обновленные фотографии
+        setPhotos(prevData => [...prevData, ...data.hits]);
         setError(null); // Сбрасываем сообщение об ошибке
       } catch (error) {
         setError(error.message); // Устанавливаем сообщение об ошибке
-        setPhotos(null); // Сбрасываем фотографии в случае ошибки
+        setPhotos([]); // Сбрасываем фотографии в случае ошибки
       } finally {
         setIsLoading(false); // В любом случае завершаем запрос, сбрасывая флаг загрузки
       }
